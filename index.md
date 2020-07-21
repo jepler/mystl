@@ -5,16 +5,10 @@ title: MySTL
 
 
 
-{% assign natural_files = site.static_files %}
-{% for asset in natural_files %}
-  {% assign ext = asset.extname | lower %}
-  {% assign parts = asset.path | split: "/" %}
-  {% assign dirname = parts[1] %}
-  {% if asset.force_image or dirname == "resources" %}
-  {% if asset.force_image or ext == ".jpg" or ext == ".png" %}
-![{{ asset.title }}]({{ asset.path }})
-  {% endif %}
-  {% endif %}
+{% for asset in site.data.assets %}
+  {% for image in asset.images %}
+![{{ asset.name }}](resources/{{ image }})
+  {% endfor %}
 {% endfor %}
 
 {% comment %}
@@ -26,15 +20,22 @@ Sections to consider adding:
 
 ## Downloads
 
-{% for asset in natural_files %}
-  {% assign ext = asset.extname | lower %}
-  {% assign parts = asset.path | split: "/" %}
-  {% assign dirname = parts[1] %}
-  {% if asset.force_download or dirname == "resources" %}
-  {% if asset.force_download or ext == ".stl" or ext == ".scad" or ext == ".zip" %}
-  {% assign basename = asset.path | split: "/" | last %}
-  - [{{ asset.title | default: basename }}]({{ asset.path }})
+{% for asset in site.data.assets %}
+  - {{ asset.name }}:
+  {% if asset.scad %}
+  {% assign basename = asset.scad | split: "/" | last %}
+    - [{{ basename }}](resources/{{ asset.scad }})
   {% endif %}
+  {% if asset.stl %} 
+    {% assign basename = asset.stl | split: "/" | last %}
+    - [{{ basename }}](resources/{{ asset.stl }})
+    {% endif %}
+  {% if asset.svg %} 
+    {% assign basename = asset.svg | split: "/" | last %}
+    - [{{ asset.name }} - {{ basename }}](resources/{{ asset.svg }})
+    {% endif %}
+  {% if asset.flags %} 
+      Generated with `{{ asset.flags }}`
   {% endif %}
 {% endfor %}
 

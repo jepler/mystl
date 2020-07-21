@@ -1,0 +1,10 @@
+- name: Featureless Cube
+  scad: main.scad
+  stl: gen/main.stl
+  images: ['gen/main.png']
+
+- name: Big Featureless Cube
+  scad: main.scad
+  flags: -Dsize=100
+  stl: gen/main.stl
+  images: ['gen/main.png']
