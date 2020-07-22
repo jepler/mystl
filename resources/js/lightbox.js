@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
     elements.forEach(element => {
         var url = element.getAttribute('data-stl');
         if(url) {
-            var stl = element.getAttribute('data-stl');
             element.classList.add('lightbox-image-stl');
         }
     });
