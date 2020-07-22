@@ -26,6 +26,8 @@ Sections to consider adding:
 
 {% for asset in site.data.assets %}
   - {{ asset.name }}:
+
+      {{ asset.notes }}
   {% if asset.scad %}
   {% assign basename = asset.scad | split: "/" | last %}
     - [{{ basename }}](resources/{{ asset.scad }})

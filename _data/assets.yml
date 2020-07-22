@@ -4,6 +4,7 @@
   images: ['gen/main.png']
 
 - name: Big Featureless Cube
+  notes: "Choice of red color is not well motivated, it was just a chance to send a string as an OpenSCAD parameter.  This color is _NOT_ carried through to the STL viewer, because OpenSCAD STLs do not carry color information.  Since models are zoomed, you can't see the size difference either.  Whoops."
   scad: main.scad
   flags: -Dsize=100 -Dcolor="red"
   stl: gen/big.stl
