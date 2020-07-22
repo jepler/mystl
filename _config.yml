@@ -1,2 +1,2 @@
-exclude: [README.md,Makefile,resources/gen/rules.mk,readfile.scad,.*,resources/gen/*.d,*.sw?]
+exclude: [README.md,Makefile,resources/gen/rules.mk,readfile.scad,.*,resources/gen/*.d]
 pygments: True
