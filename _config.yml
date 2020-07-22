@@ -1,2 +1,2 @@
-exclude: [README.md,]
+exclude: [README.md,Makefile,licenses,rules.py,rules.mk,readfile.scad,.*,resources/gen/*.d]
 pygments: True

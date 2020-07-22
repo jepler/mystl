@@ -7,7 +7,11 @@ title: MySTL
 
 {% for asset in site.data.assets %}
   {% for image in asset.images %}
-![{{ asset.name }}](resources/{{ image }})
+  {% if asset.stl %}
+<img src="{{ relative }}resources/{{ image }}" title="{{ asset.name }}" data-stl="{{ relative }}resources/{{ asset.stl }}">
+  {% else %}
+<img src="{{ relative }}resources/{{ image }}" title="{{ asset.name }}">
+  {% endif %}
   {% endfor %}
 {% endfor %}
 
