@@ -19,10 +19,11 @@ clean:
 	$(ECHO) CLEAN
 	$(Q)rm -rf resources/gen
 
-rules.mk: _data/assets.yml rules.py
+resources/gen/rules.mk: _data/assets.yml _lib/rules.py
 	$(ECHO) RULES
-	$(Q)./rules.py $< > $@
--include rules.mk
+	$(Q)mkdir resources/gen
+	$(Q)_lib/rules.py $< > $@
+-include resources/gen/rules.mk
 
 
 .PHONY: publish
