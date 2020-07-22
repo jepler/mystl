@@ -26,8 +26,12 @@ resources/gen/rules.mk: _data/assets.yml _lib/rules.py
 -include resources/gen/rules.mk
 
 
-.PHONY: publish
-publish: default
+.PHONY: publish jekyll
+jekyll:
+	$(ECHO) "JEKYLL"
+	$(Q)jekyll build
+
+publish: jekyll default
 	$(ECHO) "PUBLISH"
 	$(Q)git branch -D gh-pages || true
 	$(Q)./_lib/docimport.py | git fast-import --date-format=now
