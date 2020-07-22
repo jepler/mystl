@@ -32,7 +32,8 @@ MAKE_SCAD_PNG = """
 -include {target}.d
 {target}: {src}
 \tmkdir -p $(dir {target})
-\topenscad -o {target} -d {target}.d $(SCAD_FLAGS) {flags} {src}
+\topenscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} {src}
+\tconvert -geometry 25% {target}.tmp.png {target}
 default:: {target}
 """
 
@@ -40,7 +41,8 @@ MAKE_STL_PNG = """
 -include {target}.d
 {target}: {src}
 \tmkdir -p $(dir {target})
-\topenscad -o {target} -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
+\topenscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
+\tconvert -geometry 25% {target}.tmp.png {target}
 default:: {target}
 """
 

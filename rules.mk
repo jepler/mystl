@@ -11,7 +11,8 @@ default:: resources/gen/main.stl
 -include resources/gen/main.png.d
 resources/gen/main.png: resources/main.scad
 	mkdir -p $(dir resources/gen/main.png)
-	openscad -o resources/gen/main.png -d resources/gen/main.png.d $(SCAD_FLAGS)  resources/main.scad
+	openscad --imgsize=2048,2048 -o resources/gen/main.png.tmp.png -d resources/gen/main.png.d $(SCAD_FLAGS)  resources/main.scad
+	convert -geometry 25% resources/gen/main.png.tmp.png resources/gen/main.png
 default:: resources/gen/main.png
 
 
@@ -27,6 +28,7 @@ default:: resources/gen/big.stl
 -include resources/gen/big.png.d
 resources/gen/big.png: resources/main.scad
 	mkdir -p $(dir resources/gen/big.png)
-	openscad -o resources/gen/big.png -d resources/gen/big.png.d $(SCAD_FLAGS) -Dsize=100 '-Dcolor="red"' resources/main.scad
+	openscad --imgsize=2048,2048 -o resources/gen/big.png.tmp.png -d resources/gen/big.png.d $(SCAD_FLAGS) -Dsize=100 '-Dcolor="red"' resources/main.scad
+	convert -geometry 25% resources/gen/big.png.tmp.png resources/gen/big.png
 default:: resources/gen/big.png
 
