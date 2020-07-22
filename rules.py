@@ -11,38 +11,42 @@ resources = pathlib.Path("resources")
 MAKE_SCAD_STL = """
 -include {target}.d
 {target}: {src}
-\tmkdir -p $(dir {target})
-\topenscad -o {target}.tmp.stl -d {target}.d $(SCAD_FLAGS) {flags} {src}
-\tadmesh -b {target} {target}.tmp.stl
-\trm -f {target}.tmp.stl
+\t$(ECHO) $target
+\t$(Q)mkdir -p $(dir {target})
+\t$(Q)openscad -o {target}.tmp.stl -d {target}.d $(SCAD_FLAGS) {flags} {src}
+\t$(Q)admesh -b {target} {target}.tmp.stl
+\t$(Q)rm -f {target}.tmp.stl
 default:: {target}
 """
 
 MAKE_SCAD_SVG = """
 -include {target}.d
 {target}: {src}
-\tmkdir -p $(dir {target})
-\topenscad -o {target}.tmp.svg -d {target}.d $(SCAD_FLAGS) {flags} {src}
-\tadmesh -b {target} {target}.tmp.svg
-\trm -f {target}.tmp.svg
+\t$(ECHO) $target
+\t$(Q)mkdir -p $(dir {target})
+\t$(Q)openscad -o {target} -d {target}.d $(SCAD_FLAGS) {flags} {src}
 default:: {target}
 """
 
 MAKE_SCAD_PNG = """
 -include {target}.d
 {target}: {src}
-\tmkdir -p $(dir {target})
-\topenscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} {src}
-\tconvert -geometry 25% {target}.tmp.png {target}
+\t$(ECHO) $target
+\t$(Q)mkdir -p $(dir {target})
+\t$(Q)openscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} {src}
+\t$(Q)convert -geometry 25% {target}.tmp.png {target}
+\t$(Q)rm -f {target}.tmp.png
 default:: {target}
 """
 
 MAKE_STL_PNG = """
 -include {target}.d
 {target}: {src}
-\tmkdir -p $(dir {target})
-\topenscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
-\tconvert -geometry 25% {target}.tmp.png {target}
+\t$(ECHO) $target
+\t$(Q)mkdir -p $(dir {target})
+\t$(Q)openscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
+\t$(Q)convert -geometry 25% {target}.tmp.png {target}
+\t$(Q)rm -f {target}.tmp.png
 default:: {target}
 """
 
