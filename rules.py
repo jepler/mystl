@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 
 import os
+import pathlib
+import shlex
 import sys
+import yaml
+
+resources = pathlib.Path("resources")
 
 MAKE_SCAD_STL = """
 -include {target}.d
@@ -10,6 +15,16 @@ MAKE_SCAD_STL = """
 \topenscad -o {target}.tmp.stl -d {target}.d $(SCAD_FLAGS) {flags} {src}
 \tadmesh -b {target} {target}.tmp.stl
 \trm -f {target}.tmp.stl
+default:: {target}
+"""
+
+MAKE_SCAD_SVG = """
+-include {target}.d
+{target}: {src}
+\tmkdir -p $(dir {target})
+\topenscad -o {target}.tmp.svg -d {target}.d $(SCAD_FLAGS) {flags} {src}
+\tadmesh -b {target} {target}.tmp.svg
+\trm -f {target}.tmp.svg
 default:: {target}
 """
 
@@ -25,45 +40,35 @@ MAKE_STL_PNG = """
 -include {target}.d
 {target}: {src}
 \tmkdir -p $(dir {target})
-\topenscad -o {target} -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\"{src}\" readfile.scad
+\topenscad -o {target} -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
 default:: {target}
 """
 
 with open(sys.argv[1]) as f:
-    for row in f:
-        parts = row.split(":", 2)
-        if len(parts) == 1:
-            target = parts
-            src = f"{target}.scad"
-            if not os.exists(src):
-                src = f"{target}.stl"
-            flags = ""
-        if len(parts) == 2:
-            target, src = parts
-            flags = ""
-        else:
-            target, src, flags = parts
+    doc = yaml.safe_load(f)
 
-    target = target.strip()
-    src = src.strip()
-    flags = flags.strip()
+for row in doc:
+    flags = row.get('flags', '')
+    if isinstance(flags, str):
+        flags = flags.split()
+    flags = " ".join(shlex.quote(f) for f in flags)
+    scad = row.get('scad', '')
+    stl = row.get('stl', '')
+    svg = row.get('svg', '')
+        
+    if stl.startswith('gen/'):
+        print(MAKE_SCAD_STL.format(
+            **{'target': resources / stl, 'src': resources / scad, 'flags': flags}))
 
-    src = f"resources/{src}"
-    target = f"resources/gen/{target}"
+    if svg.startswith('gen/'):
+        print(MAKE_SCAD_SVG.format(
+            **{'target': resources / svg, 'src': resources / scad, 'flags': flags}))
 
-    if src.lower().endswith(".scad"):
-        if target.lower().endswith(".stl"):
-            print(MAKE_SCAD_STL.format(**{'target': target, 'src': src, 'flags': flags}))
-        elif target.lower().endswith(".png"):
-            print(MAKE_SCAD_PNG.format(**{'target': target, 'src': src, 'flags': flags}))
-        else:
-            print(f"# {target} has no recognized extension")
-            print(MAKE_SCAD_STL.format(**{'target': f"{target}.stl", 'src': src, 'flags': flags}))
-            print(MAKE_SCAD_PNG.format(**{'target': f"{target}.png", 'src': src, 'flags': flags}))
-    elif src.lower().endswith(".stl"):
-        if target.lower().endswith(".png"):
-            print(MAKE_STL_PNG.format(**{'target': target, 'src': src, 'flags': flags}))
-        else:
-            print(MAKE_STL_PNG.format(**{'target': f"{target}.png", 'src': src, 'flags': flags}))
-    else:
-        raise RuntimeError(f"Don't know how to handle {src} -> {target}")
+    for png in row.get('images', []):
+        if png.startswith('gen/'):
+            if scad:
+                print(MAKE_SCAD_PNG.format(
+                    **{'target': resources / png, 'src': resources / scad, 'flags': flags}))
+            else:
+                print(MAKE_STL_PNG.format(
+                    **{'target': resources / png, 'src': resources / stl, 'flags': flags}))

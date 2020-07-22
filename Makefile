@@ -3,8 +3,8 @@ default::
 clean:
 	rm -rf resources/gen
 
-rules.mk: files.gen rules.py
-	./rules.py files.gen > rules.mk
+rules.mk: _data/assets.yml rules.py
+	./rules.py $< > $@
 -include rules.mk
 
 

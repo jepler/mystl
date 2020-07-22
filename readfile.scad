@@ -1,2 +1,2 @@
-CONVEXITY=4
+CONVEXITY=4;
 import(input, convexity=CONVEXITY);

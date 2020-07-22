@@ -5,6 +5,6 @@
 
 - name: Big Featureless Cube
   scad: main.scad
-  flags: -Dsize=100
-  stl: gen/main.stl
-  images: ['gen/main.png']
+  flags: -Dsize=100 -Dcolor="red"
+  stl: gen/big.stl
+  images: ['gen/big.png']
