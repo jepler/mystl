@@ -20,7 +20,6 @@ fd.write(b"data <<EOF" + b"\n")
 fd.write(b"Docs built at " + version.encode('utf-8') + b"\n")
 fd.write(b"EOF" + b"\n")
 
-files = glob.glob("_site/*")
 for root, dirs, files in os.walk("_site"):
     for fn in files:
         fn = os.path.join(root, fn)

@@ -18,16 +18,17 @@ default::
 clean:
 	$(ECHO) CLEAN
 	$(Q)rm -rf resources/gen
+	$(Q)jekyll clean
 
 resources/gen/rules.mk: _data/assets.yml _lib/rules.py
 	$(ECHO) RULES
-	$(Q)mkdir resources/gen
+	$(Q)mkdir -p resources/gen
 	$(Q)_lib/rules.py $< > $@
 -include resources/gen/rules.mk
 
 
 .PHONY: publish jekyll
-jekyll:
+jekyll: default
 	$(ECHO) "JEKYLL"
 	$(Q)jekyll build
 

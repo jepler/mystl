@@ -16,10 +16,10 @@ function STLViewer(elem, model) {
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.rotateSpeed = 0.05;
+    controls.rotateSpeed = 0.7;
     controls.dampingFactor = 0.1;
-    controls.enableZoom = false;
-    controls.enablePan = false;
+    controls.enableZoom = true;
+    controls.enablePan = true;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.75;
 
@@ -32,7 +32,7 @@ function STLViewer(elem, model) {
         // Determine the color
         var colorString = elem.getAttribute("data-color")
         if(colorString != null) { var color = new THREE.Color(colorString); }
-        else { var color = 0xff5533 }
+        else { var color = 0xffff33 }
         
         // Set up the material
         var material = new THREE.MeshPhongMaterial({ color: color, specular: 100, shininess: 100 });
