@@ -8,4 +8,5 @@
   scad: main.scad
   flags: -Dsize=[1,4,9]
   stl: gen/monolith.stl
-  images: ['gen/monolith.png']
+  images: ['gen/monolith.png', 'HAL_2001_monolith.jpg']
+  downloads: ['monolith.txt']

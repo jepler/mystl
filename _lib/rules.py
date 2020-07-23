@@ -44,7 +44,7 @@ MAKE_STL_PNG = """
 {target}: {src}
 \t$(ECHO) $target
 \t$(Q)mkdir -p $(dir {target})
-\t$(Q)openscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" readfile.scad
+\t$(Q)openscad --imgsize=2048,2048 -o {target}.tmp.png -d {target}.d $(SCAD_FLAGS) {flags} -Dinput=\\\"{src}\\\" _lib/readfile.scad
 \t$(Q)convert -geometry 25% {target}.tmp.png {target}
 \t$(Q)rm -f {target}.tmp.png
 default:: {target}
