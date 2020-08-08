@@ -8,14 +8,18 @@ title: MySTL Demonstration page
 {% for asset in site.data.assets %}
   {% assign stlbasename = asset.stl | split: "/" | last | split: "." | first %}
 ### {{ asset.name }}
-  {% for image in asset.images %}
-  {% assign basename = image | split: "/" | last | split: "." | first %}
-  {% if basename == stlbasename %}
+
+<html>
+{% for image in asset.images %}
+{% assign basename = image | split: "/" | last | split: "." | first %}
+{% if basename == stlbasename %}
 <img src="{{ relative }}resources/{{ image }}" title="{{ asset.name }}" data-stl="{{ relative }}resources/{{ asset.stl }}">
-  {% else %}
+{% else %}
 <img src="{{ relative }}resources/{{ image }}" title="{{ asset.name }}">
-  {% endif %}
-  {% endfor %}
+{% endif %}
+{% endfor %}
+</html>
+
 {% endfor %}
 
 {% comment %}
