@@ -23,7 +23,7 @@ jobs:
     - name: build
       run: |
         xvfb-run make V=2 -O -j$(nproc) jekyll
-    - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       name: publish
       run: |
         git config user.name "${GITHUB_ACTOR}"
