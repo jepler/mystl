@@ -31,6 +31,7 @@ resources/gen/rules.mk: _data/assets.yml _lib/rules.py
 jekyll: default
 	$(ECHO) "JEKYLL"
 	$(Q)jekyll build
+	$(Q)touch _site/.nojekyll
 
 publish: jekyll default
 	$(ECHO) "PUBLISH"
