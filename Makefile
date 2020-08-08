@@ -13,7 +13,7 @@ ECHO=@true
 VECHO=true
 endif
 
-default::
+default:
 
 clean:
 	$(ECHO) CLEAN
